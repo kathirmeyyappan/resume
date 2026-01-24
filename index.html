@@ -10,13 +10,50 @@
         height: 100%;
         overflow: hidden;
       }
-      embed {
+      iframe {
         width: 100%;
         height: 100%;
+        border: none;
+      }
+      .fallback {
+        display: none;
+        padding: 20px;
+        text-align: center;
+        height: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .fallback.show {
+        display: flex;
+      }
+      .fallback a {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 24px;
+        background-color: #007AFF;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 16px;
       }
     </style>
+    <script>
+      // Detect iOS devices
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      // On iOS or mobile, redirect to PDF directly for native viewer
+      if (isIOS || (isMobile && window.innerWidth < 768)) {
+        window.location.href = 'resume.pdf';
+      }
+    </script>
   </head>
   <body>
-    <embed src="resume.pdf" type="application/pdf">
+    <iframe src="resume.pdf" type="application/pdf"></iframe>
+    <div class="fallback">
+      <p>Your browser doesn't support embedded PDFs.</p>
+      <a href="resume.pdf" target="_blank">Open PDF in new tab</a>
+    </div>
   </body>
 </html>
